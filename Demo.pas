@@ -17,8 +17,7 @@ begin
   Container := TSimpleContainer.Create;
   try
     {--- Register the logger factories -------------------------}
-    Container.Register('logger.console', @CreateConsoleLogger);
-    Container.Register('logger.file', @CreateFileLogger);
+    TLoggerModule.RegisterServices(Container, 'demo.log');
 
     {--- Resolve console logger and use it --------------------}
     Service := Container.Resolve('logger.console');

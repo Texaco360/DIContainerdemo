@@ -6,7 +6,7 @@ unit Loggers;
 interface
 
 uses
-  SysUtils, LoggerIntf;
+  SysUtils, LoggerIntf, SimpleContainer;
 
 type
   TConsoleLogger = class(TInterfacedObject, ILogger)
@@ -22,8 +22,23 @@ type
     procedure Log(const Msg: string);
   end;
 
-function CreateConsoleLogger: IInterface;
-function CreateFileLogger: IInterface;
+  TConsoleLoggerFactory = class(TInterfacedObject, IServiceFactory)
+  public
+    function CreateService: IInterface;
+  end;
+
+  TFileLoggerFactory = class(TInterfacedObject, IServiceFactory)
+  private
+    FFileName: string;
+  public
+    constructor Create(const AFileName: string);
+    function CreateService: IInterface;
+  end;
+
+  TLoggerModule = class
+  public
+    class procedure RegisterServices(const Container: TSimpleContainer; const AFileName: string = 'demo.log');
+  end;
 
 implementation
 
@@ -54,14 +69,26 @@ begin
   end;
 end;
 
-function CreateConsoleLogger: IInterface;
+function TConsoleLoggerFactory.CreateService: IInterface;
 begin
   Result := TConsoleLogger.Create;
 end;
 
-function CreateFileLogger: IInterface;
+constructor TFileLoggerFactory.Create(const AFileName: string);
 begin
-  Result := TFileLogger.Create('demo.log');
+  inherited Create;
+  FFileName := AFileName;
+end;
+
+function TFileLoggerFactory.CreateService: IInterface;
+begin
+  Result := TFileLogger.Create(FFileName);
+end;
+
+class procedure TLoggerModule.RegisterServices(const Container: TSimpleContainer; const AFileName: string);
+begin
+  Container.Register('logger.console', TConsoleLoggerFactory.Create);
+  Container.Register('logger.file', TFileLoggerFactory.Create(AFileName));
 end;
 
 end.
