@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="ContainerDemo.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="13" Y="11"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="6">
+      <Position>
+        <Filename Value="ContainerDemo.lpr"/>
+        <Caret Line="128" Column="14" TopLine="113"/>
+      </Position>
+      <Position>
+        <Filename Value="ContainerDemo.lpr"/>
+        <Caret Line="2"/>
+      </Position>
+      <Position>
+        <Filename Value="ContainerDemo.lpr"/>
+        <Caret Line="131" Column="24" TopLine="116"/>
+      </Position>
+      <Position>
+        <Filename Value="ContainerDemo.lpr"/>
+        <Caret Line="7" Column="7"/>
+      </Position>
+      <Position>
+        <Filename Value="ContainerDemo.lpr"/>
+        <Caret Line="6" Column="15"/>
+      </Position>
+      <Position>
+        <Filename Value="ContainerDemo.lpr"/>
+        <Caret Line="5" Column="10"/>
+      </Position>
+      <Position>
+        <Filename Value="ContainerDemo.lpr"/>
+        <Caret Line="141" Column="51" TopLine="117"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
