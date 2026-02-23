@@ -142,6 +142,28 @@
                 "clear": false
             },
             "dependsOn": "Compile TestLifetimeFeatures (Debug)"
-        }
+        },
+         {
+            "label": "Compile WebAppLifetimeDemo (Debug)",
+            "type": "shell",
+            "command": "fpc",
+            "args": [
+                "src/WebAppLifetimeDemo.pas",
+                "-FUbuild",     // Unit output directory
+                "-FEbuild",     // Executable output directory
+                "-g",          // Generate debug info
+                "-gl"          // Generate line number info
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
     ]
 }

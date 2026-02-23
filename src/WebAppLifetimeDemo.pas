@@ -4,7 +4,7 @@ program WebAppLifetimeDemo;
 {$H+}
 
 uses
-  SysUtils, SimpleContainer, LoggerIntf, EnhancedLoggers;
+  SysUtils, AppContainer, LoggerIntf, EnhancedLoggers;
 
 {=================================================================
   WEB APPLICATION SIMULATION

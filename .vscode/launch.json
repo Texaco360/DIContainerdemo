@@ -43,6 +43,27 @@
             ],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal"
-        }
+        },
+        {
+            "name": "Debug TestLifetimeFeatures (CodeLLDB)",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/TestLifetimeFeatures",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "integratedTerminal",
+            "preLaunchTask": "Compile TestLifetimeFeatures (Debug)"
+        },
+        {
+            "name": "Run TestLifetimeFeatures (Terminal)",
+            "type": "process",
+            "request": "launch",
+            "command": "${workspaceFolder}/build/TestLifetimeFeatures",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        },
+        
     ]
 }
