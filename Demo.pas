@@ -4,18 +4,18 @@ program Demo;
 {$H+}
 
 uses
-  SysUtils, SimpleContainer, LoggerIntf, Loggers, CalculationService;
+  SysUtils, AppContainer, LoggerIntf, Loggers, CalculationService;
 
 {=================================================================
   5️⃣  APPLICATION – wiring, resolving, using
   =================================================================}
 var
-  Container : TSimpleContainer;
+  Container : TAppContainer;
   Service   : IInterface;
   Logger    : ILogger;
   Calc      : ICalculationService;
 begin
-  Container := TSimpleContainer.Create;
+  Container := TAppContainer.Create;
   try
     {--- Register the logger factories -------------------------}
     TLoggerModule.RegisterServices(Container, 'demo.log');

@@ -176,7 +176,7 @@ end;
 procedure TOrderServiceTests.SetUp;
 begin
   // Create test container with mocks
-  FTestContainer := TSimpleContainer.Create;
+  FTestContainer := TAppContainer.Create;
   
   FMockLogger := TMockLogger.Create;
   FMockDB := TMockDatabase.Create;  
@@ -294,7 +294,7 @@ type
   end;
   
   // Main container class
-  TSimpleContainer = class
+  TAppContainer = class
   public
     procedure Register(const Key: string; Factory: TFactory); overload;
     procedure Register(const Key: string; const Factory: IServiceFactory); overload;
@@ -305,13 +305,13 @@ type
 ### Step 2: Implement Registration
 
 ```pascal
-procedure TSimpleContainer.Register(const Key: string; Factory: TFactory);
+procedure TAppContainer.Register(const Key: string; Factory: TFactory);
 begin
   // Store the factory function with the key
   FFactories.Add(Key, Factory);
 end;
 
-procedure TSimpleContainer.Register(const Key: string; const Factory: IServiceFactory);
+procedure TAppContainer.Register(const Key: string; const Factory: IServiceFactory);
 begin
   // Store the factory object with the key
   FServiceFactories.Add(Key, Factory);
@@ -321,7 +321,7 @@ end;
 ### Step 3: Implement Resolution
 
 ```pascal
-function TSimpleContainer.Resolve(const Key: string): IInterface;
+function TAppContainer.Resolve(const Key: string): IInterface;
 var
   Factory: TFactory;
 begin
@@ -377,10 +377,10 @@ Group related service registrations:
 ```pascal
 TLoggerModule = class
 public
-  class procedure RegisterServices(Container: TSimpleContainer);
+  class procedure RegisterServices(Container: TAppContainer);
 end;
 
-class procedure TLoggerModule.RegisterServices(Container: TSimpleContainer);
+class procedure TLoggerModule.RegisterServices(Container: TAppContainer);
 begin
   // Register all logger-related services
   Container.Register('logger.console', TConsoleLoggerFactory.Create);
@@ -400,10 +400,10 @@ Handle complex object creation:
 ```pascal
 TCalculationServiceFactory = class(TInterfacedObject, IServiceFactory)
 private
-  FContainer: TSimpleContainer;
+  FContainer: TAppContainer;
   FLoggerKey: string;
 public
-  constructor Create(Container: TSimpleContainer; LoggerKey: string);
+  constructor Create(Container: TAppContainer; LoggerKey: string);
   function CreateService: IInterface;
 end;
 
@@ -429,7 +429,7 @@ const
   LOGGER_FILE = 'logger.file';
   CALC_SERVICE = 'calc.default';
   
-procedure RegisterFromConfig(Container: TSimpleContainer);
+procedure RegisterFromConfig(Container: TAppContainer);
 begin
   // Read from config file or use defaults
   if ConfigUseFileLogger then
@@ -451,9 +451,9 @@ unit ServiceLocator;
 type
   TServices = class
   private
-    class var FContainer: TSimpleContainer;
+    class var FContainer: TAppContainer;
   public
-    class procedure Initialize(Container: TSimpleContainer);
+    class procedure Initialize(Container: TAppContainer);
     class function GetLogger: ILogger;
     class function GetCalculator: ICalculationService;
   end;
@@ -586,9 +586,9 @@ var Logger := Container.Resolve('logger');  // OK
 // Problem: Not managing container lifecycle
 procedure BadExample;
 var
-  Container: TSimpleContainer;
+  Container: TAppContainer;
 begin
-  Container := TSimpleContainer.Create;
+  Container := TAppContainer.Create;
   // ... use container ...
   // Missing: Container.Free;  <- Memory leak!
 end;
@@ -596,9 +596,9 @@ end;
 // Solution: Always clean up
 procedure GoodExample;
 var
-  Container: TSimpleContainer;
+  Container: TAppContainer;
 begin
-  Container := TSimpleContainer.Create;
+  Container := TAppContainer.Create;
   try
     // ... use container ...
   finally
@@ -647,7 +647,7 @@ Container.Register('logger.decorated',
 Register different services based on configuration:
 
 ```pascal
-procedure RegisterLoggers(Container: TSimpleContainer; Config: TAppConfig);
+procedure RegisterLoggers(Container: TAppContainer; Config: TAppConfig);
 begin
   case Config.LogLevel of
     llDebug: 
@@ -673,7 +673,7 @@ Different object lifetimes for different needs:
 type
   TServiceScope = (ssTransient, ssSingleton, ssScoped);
   
-  TScopedContainer = class(TSimpleContainer)
+  TScopedContainer = class(TAppContainer)
   private
     FSingletons: TDictionary<string, IInterface>;
   public
@@ -700,10 +700,10 @@ uses
   Container, LoggingModule, DataModule, BusinessModule;
 
 var
-  AppContainer: TSimpleContainer;
+  AppContainer: TAppContainer;
   App: IApplication;
 begin
-  AppContainer := TSimpleContainer.Create;
+  AppContainer := TAppContainer.Create;
   try
     // Register all modules
     TLoggingModule.RegisterServices(AppContainer);

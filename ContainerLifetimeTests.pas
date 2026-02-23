@@ -6,7 +6,7 @@ unit ContainerLifetimeTests;
 interface
 
 uses
-  SysUtils, SimpleContainer, LoggerIntf, EnhancedLoggers;
+  SysUtils, AppContainer, LoggerIntf, EnhancedLoggers;
 
 type
   // Simple test framework
@@ -18,7 +18,7 @@ type
   
   TContainerLifetimeTests = class
   private
-    FContainer: TSimpleContainer;
+    FContainer: TAppContainer;
     FResults: array of TTestResult;
     procedure AddResult(const TestName: string; Success: Boolean; const ErrorMsg: string = '');
     procedure RunTest(const TestName: string; TestProc: TProcedure);
@@ -42,7 +42,7 @@ implementation
 constructor TContainerLifetimeTests.Create;
 begin
   inherited Create;
-  FContainer := TSimpleContainer.Create;
+  FContainer := TAppContainer.Create;
   SetLength(FResults, 0);
 end;
 

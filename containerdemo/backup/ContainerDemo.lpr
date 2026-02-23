@@ -131,7 +131,7 @@ end;
 type
   TFactory = reference to function: IInterface;
 
-  TSimpleContainer = class
+  TAppContainer = class
   private
     FFactories: TStringList; // key -> factory
   public
@@ -141,27 +141,27 @@ type
     function Resolve<T: IInterface>(const Key: string): T;
   end;
 
-constructor TSimpleContainer.Create;
+constructor TAppContainer.Create;
 begin
   inherited;
   FFactories := TStringList.Create;
   FFactories.CaseSensitive := False;
 end;
 
-destructor TSimpleContainer.Destroy;
+destructor TAppContainer.Destroy;
 begin
   FFactories.Free;
   inherited;
 end;
 
-procedure TSimpleContainer.Register(const Key: string; const Factory: TFactory);
+procedure TAppContainer.Register(const Key: string; const Factory: TFactory);
 begin
   // Overwrite if already registered
   FFactories.Values[Key] := '';
   FFactories.AddObject(Key, TObject(@Factory));
 end;
 
-function TSimpleContainer.Resolve<T>(const Key: string): T;
+function TAppContainer.Resolve<T>(const Key: string): T;
 var
   idx: Integer;
   factoryRef: ^TFactory;

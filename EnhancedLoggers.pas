@@ -6,8 +6,7 @@ unit EnhancedLoggers;
 interface
 
 uses
-  SysUtils, LoggerIntf, SimpleContainer;
-
+  SysUtils, LoggerIntf, AppContainer;
 type
   // Thread-safe singleton logger with instance counting
   TApplicationLogger = class(TInterfacedObject, ILogger)
@@ -48,7 +47,7 @@ type
   // Enhanced logger module with lifetime management
   TEnhancedLoggerModule = class
   public
-    class procedure RegisterServices(const Container: TSimpleContainer);
+    class procedure RegisterServices(const Container: TAppContainer);
   end;
 
 implementation
@@ -122,7 +121,7 @@ begin
   WriteLn(Format('[OP-%s] %s', [FOperationId, Msg]));
 end;
 
-class procedure TEnhancedLoggerModule.RegisterServices(const Container: TSimpleContainer);
+class procedure TEnhancedLoggerModule.RegisterServices(const Container: TAppContainer);
 begin
   // SINGLETON: Application-wide logger (one instance for entire app)
   Container.RegisterSingleton('logger.application',

@@ -4,7 +4,7 @@ program CalculationService_FakeLoggerTest;
 {$H+}
 
 uses
-  SysUtils, Classes, SimpleContainer, LoggerIntf, CalculationService;
+  SysUtils, Classes, AppContainer, LoggerIntf, CalculationService;
 
 type
   IFakeLogger = interface
@@ -80,13 +80,13 @@ begin
 end;
 
 var
-  Container: TSimpleContainer;
+  Container: TAppContainer;
   Service: IInterface;
   Calc: ICalculationService;
   FakeLogger: IFakeLogger;
   Value: Integer;
 begin
-  Container := TSimpleContainer.Create;
+  Container := TAppContainer.Create;
   try
     Container.Register('logger.fake', TFakeLoggerFactory.Create);
     TCalculationModule.RegisterServices(Container, 'logger.fake');

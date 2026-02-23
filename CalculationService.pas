@@ -6,7 +6,7 @@ unit CalculationService;
 interface
 
 uses
-  SysUtils, LoggerIntf, SimpleContainer;
+  SysUtils, LoggerIntf, AppContainer;
 
 type
   ICalculationService = interface
@@ -26,16 +26,16 @@ type
 
   TCalculationServiceFactory = class(TInterfacedObject, IServiceFactory)
   private
-    FContainer: TSimpleContainer;
+    FContainer: TAppContainer;
     FLoggerKey: string;
   public
-    constructor Create(const AContainer: TSimpleContainer; const ALoggerKey: string);
+    constructor Create(const AContainer: TAppContainer; const ALoggerKey: string);
     function CreateService: IInterface;
   end;
 
   TCalculationModule = class
   public
-    class procedure RegisterServices(const Container: TSimpleContainer; const ALoggerKey: string = 'logger.console');
+    class procedure RegisterServices(const Container: TAppContainer; const ALoggerKey: string = 'logger.console');
   end;
 
 implementation
@@ -60,7 +60,7 @@ begin
   FLogger.Log(Format('Multiply(%d, %d) = %d', [A, B, Result]));
 end;
 
-constructor TCalculationServiceFactory.Create(const AContainer: TSimpleContainer; const ALoggerKey: string);
+constructor TCalculationServiceFactory.Create(const AContainer: TAppContainer; const ALoggerKey: string);
 begin
   inherited Create;
   FContainer := AContainer;
@@ -79,7 +79,7 @@ begin
   Result := TCalculationService.Create(Logger);
 end;
 
-class procedure TCalculationModule.RegisterServices(const Container: TSimpleContainer; const ALoggerKey: string);
+class procedure TCalculationModule.RegisterServices(const Container: TAppContainer; const ALoggerKey: string);
 begin
   Container.Register('calc.default', TCalculationServiceFactory.Create(Container, ALoggerKey));
 end;

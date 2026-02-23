@@ -19,7 +19,7 @@ type
     function CreateService: IInterface;
   end;
 
-  TSimpleContainer = class
+  TAppContainer = class
   private type
     TServiceEntry = class
     public
@@ -83,14 +83,14 @@ begin
   Result := FFactory();
 end;
 
-constructor TSimpleContainer.Create;
+constructor TAppContainer.Create;
 begin
   inherited;
   FEntries := TList.Create;
   FCurrentScope := TList.Create;
 end;
 
-destructor TSimpleContainer.Destroy;
+destructor TAppContainer.Destroy;
 var
   i: Integer;
 begin
@@ -107,7 +107,7 @@ begin
   inherited Destroy;
 end;
 
-function TSimpleContainer.FindEntry(const Key: string): TServiceEntry;
+function TAppContainer.FindEntry(const Key: string): TServiceEntry;
 var
   i: Integer;
   Entry: TServiceEntry;
@@ -121,12 +121,12 @@ begin
   Result := nil;
 end;
 
-procedure TSimpleContainer.Register(const Key: string; FactoryFunc: TFactory; Lifetime: TServiceLifetime);
+procedure TAppContainer.Register(const Key: string; FactoryFunc: TFactory; Lifetime: TServiceLifetime);
 begin
   Register(Key, TDelegateFactory.Create(FactoryFunc), Lifetime);
 end;
 
-procedure TSimpleContainer.Register(const Key: string; const FactoryObj: IServiceFactory; Lifetime: TServiceLifetime);
+procedure TAppContainer.Register(const Key: string; const FactoryObj: IServiceFactory; Lifetime: TServiceLifetime);
 var
   Entry: TServiceEntry;
 begin
@@ -146,37 +146,37 @@ begin
 end;
 
 // Convenience methods for specific lifetimes
-procedure TSimpleContainer.RegisterSingleton(const Key: string; FactoryFunc: TFactory);
+procedure TAppContainer.RegisterSingleton(const Key: string; FactoryFunc: TFactory);
 begin
   Register(Key, FactoryFunc, slSingleton);
 end;
 
-procedure TSimpleContainer.RegisterSingleton(const Key: string; const FactoryObj: IServiceFactory);
+procedure TAppContainer.RegisterSingleton(const Key: string; const FactoryObj: IServiceFactory);
 begin
   Register(Key, FactoryObj, slSingleton);
 end;
 
-procedure TSimpleContainer.RegisterTransient(const Key: string; FactoryFunc: TFactory);
+procedure TAppContainer.RegisterTransient(const Key: string; FactoryFunc: TFactory);
 begin
   Register(Key, FactoryFunc, slTransient);
 end;
 
-procedure TSimpleContainer.RegisterTransient(const Key: string; const FactoryObj: IServiceFactory);
+procedure TAppContainer.RegisterTransient(const Key: string; const FactoryObj: IServiceFactory);
 begin
   Register(Key, FactoryObj, slTransient);
 end;
 
-procedure TSimpleContainer.RegisterScoped(const Key: string; FactoryFunc: TFactory);
+procedure TAppContainer.RegisterScoped(const Key: string; FactoryFunc: TFactory);
 begin
   Register(Key, FactoryFunc, slScoped);
 end;
 
-procedure TSimpleContainer.RegisterScoped(const Key: string; const FactoryObj: IServiceFactory);
+procedure TAppContainer.RegisterScoped(const Key: string; const FactoryObj: IServiceFactory);
 begin
   Register(Key, FactoryObj, slScoped);
 end;
 
-function TSimpleContainer.Resolve(const Key: string): IInterface;
+function TAppContainer.Resolve(const Key: string): IInterface;
 var
   Entry: TServiceEntry;
 begin
@@ -207,7 +207,7 @@ begin
   end;
 end;
 
-function TSimpleContainer.CreateScopedInstance(Entry: TServiceEntry): IInterface;
+function TAppContainer.CreateScopedInstance(Entry: TServiceEntry): IInterface;
 type
   TScopedInstance = class
   public
@@ -236,14 +236,14 @@ begin
   FCurrentScope.Add(ScopedInstance);
 end;
 
-procedure TSimpleContainer.BeginScope;
+procedure TAppContainer.BeginScope;
 begin
   // For this simple implementation, we just clear current scope
   // In a more advanced implementation, you'd stack scopes
   EndScope;
 end;
 
-procedure TSimpleContainer.EndScope;
+procedure TAppContainer.EndScope;
 var
   i: Integer;
 begin
@@ -253,7 +253,7 @@ begin
   FCurrentScope.Clear;
 end;
 
-procedure TSimpleContainer.ClearSingletons;
+procedure TAppContainer.ClearSingletons;
 var
   i: Integer;
   Entry: TServiceEntry;

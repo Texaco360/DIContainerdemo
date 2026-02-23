@@ -4,13 +4,13 @@ program LifetimeDemo;
 {$H+}
 
 uses
-  SysUtils, SimpleContainer, LoggerIntf, Loggers, CalculationService;
+  SysUtils, AppContainer, LoggerIntf, Loggers, CalculationService;
 
 {=================================================================
   LIFETIME DEMONSTRATION - Singleton, Transient, Scoped
   =================================================================}
 var
-  Container: TSimpleContainer;
+  Container: TAppContainer;
   Logger1, Logger2, Logger3: IInterface;
   SingletonLogger1, SingletonLogger2: ILogger;
   TransientLogger1, TransientLogger2: ILogger;
@@ -19,7 +19,7 @@ begin
   WriteLn('=== Container Lifetime Management Demo ===');
   WriteLn;
 
-  Container := TSimpleContainer.Create;
+  Container := TAppContainer.Create;
   try
     {--- Register services with different lifetimes -------------------------}
     

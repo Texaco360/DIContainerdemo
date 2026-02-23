@@ -37,7 +37,7 @@ type
 
   TLoggerModule = class
   public
-    class procedure RegisterServices(const Container: TSimpleContainer; const AFileName: string = 'demo.log');
+    class procedure RegisterServices(const Container: TAppContainer; const AFileName: string = 'demo.log');
   end;
 
 implementation
@@ -85,7 +85,7 @@ begin
   Result := TFileLogger.Create(FFileName);
 end;
 
-class procedure TLoggerModule.RegisterServices(const Container: TSimpleContainer; const AFileName: string);
+class procedure TLoggerModule.RegisterServices(const Container: TAppContainer; const AFileName: string);
 begin
   Container.Register('logger.console', TConsoleLoggerFactory.Create);
   Container.Register('logger.file', TFileLoggerFactory.Create(AFileName));

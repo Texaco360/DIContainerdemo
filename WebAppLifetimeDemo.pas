@@ -15,13 +15,13 @@ type
   // Simulate a web request processor
   TRequestProcessor = class
   private
-    FContainer: TSimpleContainer;
+    FContainer: TAppContainer;
   public
-    constructor Create(AContainer: TSimpleContainer);
+    constructor Create(AContainer: TAppContainer);
     procedure ProcessRequest(const RequestId: string);
   end;
 
-constructor TRequestProcessor.Create(AContainer: TSimpleContainer);
+constructor TRequestProcessor.Create(AContainer: TAppContainer);
 begin
   inherited Create;
   FContainer := AContainer;
@@ -78,7 +78,7 @@ begin
 end;
 
 var
-  Container: TSimpleContainer;
+  Container: TAppContainer;
   Processor: TRequestProcessor;
   i: Integer;
 begin
@@ -86,7 +86,7 @@ begin
   WriteLn('Simulating multiple web requests with different service lifetimes');
   WriteLn;
 
-  Container := TSimpleContainer.Create;
+  Container := TAppContainer.Create;
   try
     // Register services with appropriate lifetimes
     TEnhancedLoggerModule.RegisterServices(Container);
