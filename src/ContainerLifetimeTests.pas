@@ -10,6 +10,8 @@ uses
 
 type
   // Simple test framework
+  TProcedure = procedure of object;
+  
   TTestResult = record
     TestName: string;
     Success: Boolean;
@@ -38,6 +40,46 @@ type
   end;
 
 implementation
+
+type
+  // Simple factory classes for testing
+  TTestApplicationLoggerFactory = class(TInterfacedObject, IServiceFactory)
+  private
+    FLogFile: string;
+  public
+    constructor Create(const ALogFile: string);
+    function CreateService: IInterface;
+  end;
+
+  TTestRequestLoggerFactory = class(TInterfacedObject, IServiceFactory)
+  private
+    FRequestId: string;
+  public
+    constructor Create(const ARequestId: string);
+    function CreateService: IInterface;
+  end;
+
+constructor TTestApplicationLoggerFactory.Create(const ALogFile: string);
+begin
+  inherited Create;
+  FLogFile := ALogFile;
+end;
+
+function TTestApplicationLoggerFactory.CreateService: IInterface;
+begin
+  Result := TApplicationLogger.Create(FLogFile);
+end;
+
+constructor TTestRequestLoggerFactory.Create(const ARequestId: string);
+begin
+  inherited Create;
+  FRequestId := ARequestId;
+end;
+
+function TTestRequestLoggerFactory.CreateService: IInterface;
+begin
+  Result := TRequestLogger.Create(FRequestId);
+end;
 
 constructor TContainerLifetimeTests.Create;
 begin
@@ -84,10 +126,7 @@ var
 begin
   // Register singleton
   FContainer.RegisterSingleton('test.singleton',
-    function: IInterface 
-    begin 
-      Result := TApplicationLogger.Create('test.log') 
-    end);
+    TTestApplicationLoggerFactory.Create('test.log'));
 
   // Resolve twice
   Instance1 := FContainer.Resolve('test.singleton');
@@ -112,10 +151,7 @@ begin
   
   // Register transient
   FContainer.RegisterTransient('test.transient',
-    function: IInterface 
-    begin 
-      Result := TApplicationLogger.Create('test.log') 
-    end);
+    TTestApplicationLoggerFactory.Create('test.log'));
 
   // Resolve twice
   Instance1 := FContainer.Resolve('test.transient');
@@ -137,10 +173,7 @@ var
 begin
   // Register scoped
   FContainer.RegisterScoped('test.scoped',
-    function: IInterface 
-    begin 
-      Result := TRequestLogger.Create('TEST-SCOPE') 
-    end);
+    TTestRequestLoggerFactory.Create('TEST-SCOPE'));
 
   // Test same scope
   FContainer.BeginScope;
@@ -175,10 +208,7 @@ var
 begin
   // Register singleton
   FContainer.RegisterSingleton('test.clear',
-    function: IInterface 
-    begin 
-      Result := TApplicationLogger.Create('test.log') 
-    end);
+    TTestApplicationLoggerFactory.Create('test.log'));
 
   // Get first instance
   Count1 := TApplicationLogger.GetInstanceCount;

@@ -1,0 +1,147 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile Demo (Enhanced Debug)",
+            "type": "shell",
+            "command": "fpc",
+            "args": [
+                "src/Demo.pas",
+                "-FUbuild",     // Unit output directory
+                "-FEbuild",     // Executable output directory
+                "-g",          // Generate debug info
+                "-gl",         // Generate line number info
+                "-gw",         // Generate DWARF debug info (best for LLDB)
+                "-gt",         // Generate stack traces on errors  
+                "-gh",         // Generate heap debug info
+                "-O-",         // Disable optimizations
+                "-Ci",         // IO checking
+                "-Co",         // Overflow checking  
+                "-Cr",         // Range checking
+                "-Sa"          // Include assertions
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile Demo (Basic)",
+            "type": "shell",
+            "command": "fpc",
+            "args": [
+                "src/Demo.pas",
+                "-FUbuild",     // Unit output directory
+                "-FEbuild"      // Executable output directory
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile TestLifetimeFeatures (Debug)",
+            "type": "shell",
+            "command": "fpc",
+            "args": [
+                "src/TestLifetimeFeatures.pas",
+                "-FUbuild",     // Unit output directory
+                "-FEbuild",     // Executable output directory
+                "-g",          // Generate debug info
+                "-gl"          // Generate line number info
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile All Programs",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-c",
+                "fpc src/Demo.pas -FUbuild -FEbuild -g -gl && fpc src/TestLifetimeFeatures.pas -FUbuild -FEbuild -g -gl"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean Build Files",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-rf",
+                "build/*"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "Run Demo",
+            "type": "shell",
+            "command": "./build/Demo",
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "dependsOn": "Compile Demo (Enhanced Debug)"
+        },
+        {
+            "label": "Run Tests",
+            "type": "shell",
+            "command": "./build/TestLifetimeFeatures",
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "dependsOn": "Compile TestLifetimeFeatures (Debug)"
+        }
+    ]
+}

@@ -6,7 +6,7 @@ unit Loggers;
 interface
 
 uses
-  SysUtils, LoggerIntf, SimpleContainer;
+  SysUtils, LoggerIntf, AppContainer;
 
 type
   TConsoleLogger = class(TInterfacedObject, ILogger)

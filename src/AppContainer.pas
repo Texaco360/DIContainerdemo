@@ -28,6 +28,12 @@ type
       Lifetime: TServiceLifetime;
       SingletonInstance: IInterface;  // Cached instance for singletons
     end;
+    
+    TScopedInstance = class
+    public
+      Key: string;
+      Instance: IInterface;
+    end;
   private
     FEntries: TList;
     FCurrentScope: TList;  // For scoped instances
@@ -208,12 +214,6 @@ begin
 end;
 
 function TAppContainer.CreateScopedInstance(Entry: TServiceEntry): IInterface;
-type
-  TScopedInstance = class
-  public
-    Key: string;
-    Instance: IInterface;
-  end;
 var
   i: Integer;
   ScopedInstance: TScopedInstance;

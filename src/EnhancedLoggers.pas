@@ -44,6 +44,28 @@ type
     procedure Log(const Msg: string);
   end;
 
+  // Factory classes for Enhanced Loggers
+  TApplicationLoggerFactory = class(TInterfacedObject, IServiceFactory)
+  private
+    FLogFile: string;
+  public
+    constructor Create(const ALogFile: string);
+    function CreateService: IInterface;
+  end;
+
+  TRequestLoggerFactory = class(TInterfacedObject, IServiceFactory)
+  public
+    function CreateService: IInterface;
+  end;
+
+  TOperationLoggerFactory = class(TInterfacedObject, IServiceFactory)
+  private
+    FOperationName: string;
+  public
+    constructor Create(const AOperationName: string);
+    function CreateService: IInterface;
+  end;
+
   // Enhanced logger module with lifetime management
   TEnhancedLoggerModule = class
   public
@@ -51,6 +73,34 @@ type
   end;
 
 implementation
+
+// Factory implementations
+constructor TApplicationLoggerFactory.Create(const ALogFile: string);
+begin
+  inherited Create;
+  FLogFile := ALogFile;
+end;
+
+function TApplicationLoggerFactory.CreateService: IInterface;
+begin
+  Result := TApplicationLogger.Create(FLogFile);
+end;
+
+function TRequestLoggerFactory.CreateService: IInterface;
+begin
+  Result := TRequestLogger.Create(Format('REQ-%d', [Random(10000)]));
+end;
+
+constructor TOperationLoggerFactory.Create(const AOperationName: string);
+begin
+  inherited Create;
+  FOperationName := AOperationName;
+end;
+
+function TOperationLoggerFactory.CreateService: IInterface;
+begin
+  Result := TOperationLogger.Create(FOperationName);
+end;
 
 constructor TApplicationLogger.Create(const ALogFile: string);
 begin
@@ -125,24 +175,15 @@ class procedure TEnhancedLoggerModule.RegisterServices(const Container: TAppCont
 begin
   // SINGLETON: Application-wide logger (one instance for entire app)
   Container.RegisterSingleton('logger.application',
-    function: IInterface 
-    begin 
-      Result := TApplicationLogger.Create('application.log') 
-    end);
+    TApplicationLoggerFactory.Create('application.log'));
 
-  // SCOPED: Request logger (one per request/scope)  
+  // SCOPED: Request logger (one per request/scope)
   Container.RegisterScoped('logger.request',
-    function: IInterface 
-    begin 
-      Result := TRequestLogger.Create(Format('REQ-%d', [Random(10000)])) 
-    end);
+    TRequestLoggerFactory.Create);
 
   // TRANSIENT: Operation logger (new for each operation)
   Container.RegisterTransient('logger.operation',
-    function: IInterface 
-    begin 
-      Result := TOperationLogger.Create('DefaultOperation') 
-    end);
+    TOperationLoggerFactory.Create('DefaultOperation'));
 end;
 
 end.

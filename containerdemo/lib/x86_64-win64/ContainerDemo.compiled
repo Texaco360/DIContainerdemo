@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CONFIG>
-  <Compiler Value="C:\lazarus\fpc\3.2.2\bin\x86_64-win64\fpc.exe" Date="1533567158"/>
-  <Params Value="-MObjFPC -Scghi -O1 -gw3 -gl -l -vewnhibq &quot;-FiC:\Users\decro\Code\Pascal snippets\containerdemo\lib\x86_64-win64&quot; &quot;-FuC:\Users\decro\Code\Pascal snippets\containerdemo\&quot; &quot;-FUC:\Users\decro\Code\Pascal snippets\containerdemo\lib\x86_64-win64\&quot; &quot;-FEC:\Users\decro\Code\Pascal snippets\containerdemo\&quot; &quot;-oC:\Users\decro\Code\Pascal snippets\containerdemo\ContainerDemo.exe&quot; ContainerDemo.lpr"/>
-  <Complete Value="False"/>
-</CONFIG>
