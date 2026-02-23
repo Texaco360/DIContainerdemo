@@ -1,4 +1,4 @@
-unit SimpleContainer;
+unit AppContainer;
 
 {$mode objfpc}
 {$H+}
