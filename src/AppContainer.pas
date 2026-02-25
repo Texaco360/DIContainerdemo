@@ -1,7 +1,7 @@
 unit AppContainer;
 
 {$mode objfpc}
-{$H+}
+{$H+}{$J-}
 
 interface
 
