@@ -11,7 +11,7 @@
                 "-FEbuild",     // Executable output directory
                 "-g",          // Generate debug info
                 "-gl",         // Generate line number info
-                "-gw",         // Generate DWARF debug info (best for LLDB)
+                "-gw3",         // Generate DWARF debug info (best for LLDB)
                 "-gt",         // Generate stack traces on errors  
                 "-gh",         // Generate heap debug info
                 "-O-",         // Disable optimizations
