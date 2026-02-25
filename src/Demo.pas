@@ -1,7 +1,7 @@
 program Demo;
 
 {$mode objfpc}
-{$H+}
+{$H+}{$J-}
 
 uses
   SysUtils, AppContainer, LoggerIntf, Loggers, CalculationService;
